@@ -107,8 +107,18 @@ def scrape_class_schedule(driver, clas, year):
 
     sleep()
     # # Get the entire HTML of the page
-    # test =  driver.find_element("xpath","//div[@class='btn-group mx-auto day-inline-group']")
-    # print (test.get_attribute("innerHTML"))
+    test =  driver.find_element("xpath","//div[@class='btn-group mx-auto day-inline-group']")
+    print (test.get_attribute("innerHTML"))
+    # 
+    # Get all week options
+    week_options = driver.find_elements("xpath","//select[@id='data-selector-range']/option")
+
+    # Loop over the options and print the innerHTML of each one
+    for option in week_options:
+        print(option.get_attribute("innerHTML"))
+    
+
+
     
     # Get the rooster element
     rooster = driver.find_element("xpath", "//div[@class='day-columns']")
@@ -142,21 +152,39 @@ options = webdriver.EdgeOptions()
 options.add_argument("--log-level=3")  # Suppress logging messages
 options.add_experimental_option('excludeSwitches', ['enable-logging'])  # Suppress DevTools listening message
 
+# def main():
+#     clear_console()
+#     dottedline()
+#     print(f"{bcolors.HEADER}{bcolors.UNDERLINE}Hanze University Class Schedule Scraper{bcolors.ENDC}")
+    
+
+#     with webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=options) as driver:
+#         # Get the current week nice and formatted
+#         get_current_week(driver)
+#         # Loop over the classes and years
+#         for clas, year in zip(CLASS, YEARS):
+#             dottedline()
+#             print(f"{bcolors.HEADER}{bcolors.UNDERLINE}{clas}{bcolors.ENDC}")
+#             scrape_class_schedule(driver, clas, year)
+#             dottedline()
+
+# if __name__ == "__main__":
+#     main()
+
 def main():
     clear_console()
     dottedline()
     print(f"{bcolors.HEADER}{bcolors.UNDERLINE}Hanze University Class Schedule Scraper{bcolors.ENDC}")
     
-
-    with webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=options) as driver:
-        # Get the current week nice and formatted
-        get_current_week(driver)
-        # Loop over the classes and years
-        for clas, year in zip(CLASS, YEARS):
-            dottedline()
-            print(f"{bcolors.HEADER}{bcolors.UNDERLINE}{clas}{bcolors.ENDC}")
-            scrape_class_schedule(driver, clas, year)
-            dottedline()
+    driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=options)
+    # Get the current week nice and formatted
+    get_current_week(driver)
+    # Loop over the classes and years
+    for clas, year in zip(CLASS, YEARS):
+        dottedline()
+        print(f"{bcolors.HEADER}{bcolors.UNDERLINE}{clas}{bcolors.ENDC}")
+        scrape_class_schedule(driver, clas, year)
+        dottedline()
 
 if __name__ == "__main__":
     main()
