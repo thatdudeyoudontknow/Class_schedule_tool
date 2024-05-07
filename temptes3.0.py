@@ -61,6 +61,7 @@ class HanzeScraper:
             print(f"Error getting page HTML: {e}")
     
     def find_weeks(self):
+        
         from bs4 import BeautifulSoup
     
         # Get the page HTML
@@ -111,6 +112,44 @@ class HanzeScraper:
 
         # Get the page HTML after the clicks
         page_html_after_clicks = self.driver.page_source
+        #----------------------------------------------
+
+        # year selection
+        # Find the select element by its id
+        select_element = soup.find('select', {'id': 'data-selector-year'})
+    
+        # Find all option elements within the select element
+        options = select_element.find_all('option')
+        print("Possible selections:")
+        for i, option in enumerate(options, start=1):
+            print(f"{i}. Year: {option.text}")
+        selected_year_number = int(input("Enter the number of the year you want to select: "))
+        selected_year = options[selected_year_number - 1].text
+        print(selected_year)
+        year_element = self.driver.find_element("xpath", "//select[@id='data-selector-year']")
+        year_element.click()
+        year_element.send_keys(selected_year)
+        year_element.click()
+
+        
+
+
+        # group selection
+        select_element = soup.find('select', {'id': 'data-selector-group'})
+        options = select_element.find_all('option')
+        print("Possible selections:")
+        for i, option in enumerate(options, start=1):
+            print(f"{i}. Group: {option.text}")
+        selected_group_number = int(input("Enter the number of the group you want to select: "))
+        selected_group = options[selected_group_number - 1].text
+        print(selected_group)
+        group = self.driver.find_element("xpath", "//select[@id='data-selector-group']")
+        group.click()
+        group.send_keys(selected_group)
+        group.click()
+
+        time.sleep(5)
+        
 
         # Return the HTML
         return page_html_after_clicks

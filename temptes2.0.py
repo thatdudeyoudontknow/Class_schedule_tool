@@ -12,8 +12,8 @@ from collections import namedtuple
 # Constants
 URL = "https://digirooster.hanze.nl/"
 SLEEP_TIME = 1
-CLASS = ['23/24 ITV2N1', '23/24 ITV1A', '23/24 ITV1B', '23/24 ITV1C', '23/24 ITV1D', '23/24 ITV1E', '23/24 ITV1F', '23/24 ITV1G', '23/24 ITV1H']
-YEARS = ['2', '1', '1', '1', '1', '1', '1', '1', '1', '1']
+#CLASS = ['23/24 ITV2N1', '23/24 ITV1A', '23/24 ITV1B', '23/24 ITV1C', '23/24 ITV1D', '23/24 ITV1E', '23/24 ITV1F', '23/24 ITV1G', '23/24 ITV1H']
+#YEARS = ['2', '1', '1', '1', '1', '1', '1', '1', '1', '1']
 BColors = namedtuple('BColors', ['HEADER', 'OKGREEN', 'FAIL', 'ENDC'])
 bcolors = BColors('\033[95m', '\033[92m', '\033[91m', '\033[0m')
 
@@ -21,6 +21,9 @@ class ConsoleUtils:
     @staticmethod
     def print_green(text):
         print(f"{bcolors.OKGREEN}{text}{bcolors.ENDC}")
+    
+    def print_purple(text):
+        print(f"{bcolors.HEADER}{text}{bcolors.ENDC}")
 
     @staticmethod
     def clear_console():
@@ -50,6 +53,8 @@ class WebDriverManager:
 class HanzeScraper:
     def __init__(self):
         self.driver = None
+        self.years = []
+        self.classes = []
 
     def run(self):
         ConsoleUtils.clear_console()
@@ -59,10 +64,11 @@ class HanzeScraper:
         try:
             self.driver = WebDriverManager.setup_driver()
             current_week = self.get_current_week()
-
+            
             self.find_weeks()
+            self.select_year_and_class()
             time.sleep(SLEEP_TIME)
-            for clas, year in zip(CLASS, YEARS):
+            for clas, year in zip(self.classes, self.years):
                 ConsoleUtils.dottedline()
                 print(f"{bcolors.HEADER}{clas}{bcolors.ENDC}")
                 self.scrape_class_schedule(clas, year)
@@ -84,6 +90,59 @@ class HanzeScraper:
             if self.driver:
                 self.driver.quit()
             time.sleep(SLEEP_TIME)
+
+    def select_year_and_class(self):
+        while True:
+            soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+
+            # Year selection
+            select_element = soup.find('select', {'id': 'data-selector-year'})
+            options = select_element.find_all('option')
+            ConsoleUtils.print_purple("Possible selections:")
+            for i, option in enumerate(options, start=1):
+                ConsoleUtils.print_green(f"{i}. Year: {option.text}")
+            ConsoleUtils.print_purple("Enter the number of the year you want to select: ")
+            selected_year_number = int(input())
+            selected_year = options[selected_year_number - 1].text
+            year_element = self.driver.find_element("xpath", "//select[@id='data-selector-year']")
+            year_element.click()
+            year_element.send_keys(selected_year)
+            year_element.click()
+            self.years.append(selected_year)
+            time.sleep(4)
+            
+
+            soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+            # Group selection
+            select_element = soup.find('select', {'id': 'data-selector-group'})
+            options = select_element.find_all('option')
+            ConsoleUtils.print_purple("Possible selections:")
+            for i, option in enumerate(options, start=1):
+                ConsoleUtils.print_green(f"{i}. Group: {option.text}")
+            ConsoleUtils.print_purple("Enter the number of the group you want to select: ")
+            selected_group_number = int(input())
+            selected_group = options[selected_group_number -1].text
+            group = self.driver.find_element("xpath", "//select[@id='data-selector-group']")
+            group.click()
+            group.send_keys(selected_group)
+            group.click()
+            self.classes.append(selected_group)
+
+            ConsoleUtils.clear_console()
+            ConsoleUtils.dottedline()
+            print(f"{bcolors.HEADER}Hanze University Class Schedule Scraper{bcolors.ENDC}")
+
+            # Ask user if they want to add another year/class
+            ConsoleUtils.print_purple("Do you want to add another year/class? (yes/no): ")
+            add_more = input()
+            ConsoleUtils.clear_console()
+            ConsoleUtils.dottedline()
+            print(f"{bcolors.HEADER}Hanze University Class Schedule Scraper{bcolors.ENDC}")
+            print ("")
+            if add_more.lower() != 'yes':
+                break
+
+
     def find_weeks(self):
         # Get the page HTML
         page_html = self.driver.page_source
@@ -100,12 +159,13 @@ class HanzeScraper:
         
 
         # Print the text of each option with a number
-        print("Possible selections:")
+        ConsoleUtils.print_purple("Possible weeks:")
         for i, option in enumerate(options, start=1):
-            print(f"{i}. {option.text}")
+            ConsoleUtils.print_green(f"{i}. {option.text}")
 
         # Prompt the user to enter the number of the week they want to select
-        selected_week_number = int(input("Enter the number of the week you want to select: "))
+        ConsoleUtils.print_purple("Enter the number of the week you want to select: ")
+        selected_week_number = int(input())
         selected_week = options[selected_week_number - 1].text  # Subtract 1 because list indices start at 0
 
         # Calculate the number of clicks needed
@@ -131,9 +191,11 @@ class HanzeScraper:
 
         # Get the page HTML after the clicks
         page_html_after_clicks = self.driver.page_source
-
-        # Return the HTML
-        return page_html_after_clicks
+        
+        ConsoleUtils.clear_console()
+        ConsoleUtils.dottedline()
+        print(f"{bcolors.HEADER}Hanze University Class Schedule Scraper{bcolors.ENDC}")
+        print("")
 
     def get_current_week(self):
         try:
