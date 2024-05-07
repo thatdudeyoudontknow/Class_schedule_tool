@@ -40,9 +40,9 @@ from selenium import webdriver
 from selenium.webdriver.edge.service import Service
 from selenium.webdriver.edge.options import Options
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
-from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
+from selenium.common.exceptions import NoSuchWindowException
+from msedge.selenium_tools import Edge, EdgeOptions
 import pandas as pd
 from bs4 import BeautifulSoup
 import time
@@ -64,7 +64,6 @@ bcolors = BColors('\033[95m', '\033[94m', '\033[96m', '\033[92m', '\033[93m', '\
 def print_green(text):
     print(f"{bcolors.OKGREEN}{text}{bcolors.ENDC}")
 
-
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -76,6 +75,8 @@ def dottedline():
     print("")
     print_green('-' * pd.get_option('display.width'))
     print("")
+
+
 
 def get_current_week(driver):
     """Returns the current week number."""
@@ -147,29 +148,16 @@ def scrape_class_schedule(driver, clas, year):
             print_green(f"  {time} - {subject} ({location})")
 
         print()
+options = EdgeOptions()
+#options = webdriver.EdgeOptions()
+#options.use_chromium = True
+#options.add_argument("--headless")
+#options.add_argument("disable-gpu")
 
-options = webdriver.EdgeOptions()
 options.add_argument("--log-level=3")  # Suppress logging messages
 options.add_experimental_option('excludeSwitches', ['enable-logging'])  # Suppress DevTools listening message
 
-# def main():
-#     clear_console()
-#     dottedline()
-#     print(f"{bcolors.HEADER}{bcolors.UNDERLINE}Hanze University Class Schedule Scraper{bcolors.ENDC}")
-    
-
-#     with webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=options) as driver:
-#         # Get the current week nice and formatted
-#         get_current_week(driver)
-#         # Loop over the classes and years
-#         for clas, year in zip(CLASS, YEARS):
-#             dottedline()
-#             print(f"{bcolors.HEADER}{bcolors.UNDERLINE}{clas}{bcolors.ENDC}")
-#             scrape_class_schedule(driver, clas, year)
-#             dottedline()
-
-# if __name__ == "__main__":
-#     main()
+# Main--------------------------------------------------------------
 
 def main():
     clear_console()
@@ -177,14 +165,24 @@ def main():
     print(f"{bcolors.HEADER}{bcolors.UNDERLINE}Hanze University Class Schedule Scraper{bcolors.ENDC}")
     
     driver = webdriver.Edge(service=Service(EdgeChromiumDriverManager().install()), options=options)
-    # Get the current week nice and formatted
-    get_current_week(driver)
-    # Loop over the classes and years
-    for clas, year in zip(CLASS, YEARS):
-        dottedline()
-        print(f"{bcolors.HEADER}{bcolors.UNDERLINE}{clas}{bcolors.ENDC}")
-        scrape_class_schedule(driver, clas, year)
-        dottedline()
+    driver.maximize_window()  # Maximize the browser window
+    try:
+        # Get the current week nice and formatted
+        get_current_week(driver)
+        # Loop over the classes and years
+        for clas, year in zip(CLASS, YEARS):
+            dottedline()
+            print(f"{bcolors.HEADER}{bcolors.UNDERLINE}{clas}{bcolors.ENDC}")
+            scrape_class_schedule(driver, clas, year)
+            dottedline()
+    except NoSuchWindowException:
+        print(f"{bcolors.FAIL}The browser was closed and the program could not continue.{bcolors.ENDC}")
+    finally:
+        # If the window is closed, catch the exception and close the driver
+        driver.quit()
+        sleep()
+        #clear_console()
+
 
 if __name__ == "__main__":
     main()
