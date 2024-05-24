@@ -1,0 +1,682 @@
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digirooster</title>
+    <base href="/">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,700i" rel="stylesheet">
+    <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/lib/bootstrap/css/bootstrap.min.css?v=fx038NkLY4U1TCrBDiu5FWPEa9eiZu01EiLryshJbCo" rel="stylesheet" type="text/css">
+    <link href="/css/Site.css?v=mEvnGR1q1apkc1r9aglvPBPnv4ZtDtodj1CNUQIsHSw" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.1.6/sumoselect.min.css">
+
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/js/IENotSupported.js"></script>
+    <script src="/js/jquery-ui-1.12.1.min.js"></script>
+    <script src="/js/moment.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.bundle.js?v=cylxV1UruqmvQwOaplblZ7N-bxLCJYH-vHSBhlz5kF4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.sumoselect/3.1.6/jquery.sumoselect.min.js"></script>
+    <script src="/js/Custom.js?v=q7sNA_gsRH-kejVGcrnYN0KFdwnWL9UaPLzFmNQObys"></script>
+    
+</head>
+    <body>
+        <div class="wrapper">
+            <header class="header">
+                <div class="row justify-content-between mb-2 g-0">
+                    <a href="/" id="logo" class="col-auto order-start">
+                        <div class="logo-symbool"></div>
+                        <div class="logo-tekst">Digirooster</div>
+                    </a>
+                    <div class="col-auto order-2 ms-auto ms-lg-0 order-lg-last">
+                        <div class="inline-container ">
+                            <div id="header-mobile-button" class="vertical-centered" style="">
+                                <div class="button circle vertical-centered"><span class="fa fa-mobile larger"></span><span class="fa fa-refresh mini"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto order-3 order-lg-last">
+                        <div class="inline-container">
+                            
+<div id="menu-user" class="usermenu vertical-centered">
+    <div id="menu-lbl"><div class="circle"><span class="fa fa-user"></span></div><span class="name">Welcome <span class="notranslate"></span></span><span class="fa fa-caret-down"></span></div>    
+</div>
+
+<script id="menu-content" type="text/html">
+    <div class="main-popover-content list-group list-group-flush">
+        <a class="list-group-item list-group-item-action" href="https://storagedigirooster.blob.core.windows.net/content/MANUAL.pdf">Help</a>
+        <a class="list-group-item list-group-item-action print-window" href="#">Print</a>
+        <a class="list-group-item list-group-item-action" href="/Account/SignOut">Sign out</a>
+    </div>
+</script>
+<script>
+    $(function () {
+        $('#menu-lbl').popover({
+            html: true,
+            placement: function (context, src) {
+                $(context).addClass('always-ontop');
+                return 'bottom';
+            },
+            content: function () {
+                return $('#menu-content').html();
+            }
+        });
+
+        var menuPopover = document.getElementById('menu-lbl')
+        menuPopover.addEventListener('shown.bs.popover', function () {
+            $('.main-popover-content a.print-window').on('click', function () {
+                window.print();
+                return false;
+            });
+        });
+    });
+</script>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-auto order-4"></div>
+
+<div class="col-auto px-2 order-5 order-lg-2 me-lg-auto">
+    <div class="row justify-content-between">
+        <div class="col-auto">
+            <div class="inline-container view-selector">
+                <a href="/Timetable/Day">
+                    <div class="button "><span class="label">DAY</span></div>
+                </a>
+                <a href="/TimeTable/Week">
+                    <div class="button active"><span class="label">WEEK</span></div>
+                </a>
+                <a href="/Timetable/Month">
+                    <div class="button "><span class="label">MONTH</span></div>
+                </a>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="calendar-wrapper hidden" style="margin-top:18px">
+                <div class="btn-group mx-auto day-inline-group">
+                    <button type="button" data-day="prev" class="btn btn-light">
+                        <span class="fa fa-angle-left"></span>
+                    </button>
+                    <button id="dp-select" type="button" class="btn btn-light btn-middle" data-bs-toggle="popover" data-bs-html="true" data-bs-placement="bottom" data-bs-content="<div class='datepicker-wrapper'><div id='datepicker-popover' class='datepicker'></div></div>">
+                        <span class="day-txt"></span>
+                    </button>
+                    <button type="button" data-day="next" class="btn btn-light">
+                        <span class="label"><span class="fa fa-angle-right"></span></span>
+                    </button>
+                </div>
+            </div>
+            <div class="calendar-wrapper " style="margin-top:18px">
+                <div class="btn-group mx-auto day-inline-group">
+                    <button type="button" data-period="prev" class="btn btn-light">
+                        <span class="fa fa-angle-left"></span>
+                    </button>
+                    <button id="moment-button-middle" type="button" class="btn btn-light btn-middle" data-bs-toggle="popover" data-bs-html="true" data-bs-placement="bottom" data-bs-content="<div class='datepicker-wrapper'><div id='datepicker-popover' class='datepicker'></div></div>">
+                        <select id="data-selector-range"><option value="{&quot;start&quot;:&quot;2024-04-22T00:00:00&quot;,&quot;end&quot;:&quot;2024-04-29T00:00:00&quot;}">april 2024 wk 17</option><option value="{&quot;start&quot;:&quot;2024-04-29T00:00:00&quot;,&quot;end&quot;:&quot;2024-05-06T00:00:00&quot;}">mei 2024 wk 18</option><option value="{&quot;start&quot;:&quot;2024-05-06T00:00:00&quot;,&quot;end&quot;:&quot;2024-05-13T00:00:00&quot;}">mei 2024 wk 19</option><option value="{&quot;start&quot;:&quot;2024-05-13T00:00:00&quot;,&quot;end&quot;:&quot;2024-05-20T00:00:00&quot;}">mei 2024 wk 20</option><option value="{&quot;start&quot;:&quot;2024-05-20T00:00:00&quot;,&quot;end&quot;:&quot;2024-05-27T00:00:00&quot;}">mei 2024 wk 21</option><option value="{&quot;start&quot;:&quot;2024-05-27T00:00:00&quot;,&quot;end&quot;:&quot;2024-06-03T00:00:00&quot;}">mei 2024 wk 22</option><option value="{&quot;start&quot;:&quot;2024-06-03T00:00:00&quot;,&quot;end&quot;:&quot;2024-06-10T00:00:00&quot;}">juni 2024 wk 23</option><option value="{&quot;start&quot;:&quot;2024-06-10T00:00:00&quot;,&quot;end&quot;:&quot;2024-06-17T00:00:00&quot;}">juni 2024 wk 24</option><option value="{&quot;start&quot;:&quot;2024-06-17T00:00:00&quot;,&quot;end&quot;:&quot;2024-06-24T00:00:00&quot;}">juni 2024 wk 25</option><option value="{&quot;start&quot;:&quot;2024-06-24T00:00:00&quot;,&quot;end&quot;:&quot;2024-07-01T00:00:00&quot;}">juni 2024 wk 26</option><option value="{&quot;start&quot;:&quot;2024-07-01T00:00:00&quot;,&quot;end&quot;:&quot;2024-07-08T00:00:00&quot;}">juli 2024 wk 27</option><option value="{&quot;start&quot;:&quot;2024-07-08T00:00:00&quot;,&quot;end&quot;:&quot;2024-07-15T00:00:00&quot;}">juli 2024 wk 28</option><option value="{&quot;start&quot;:&quot;2024-07-15T00:00:00&quot;,&quot;end&quot;:&quot;2024-07-22T00:00:00&quot;}">juli 2024 wk 29</option><option value="{&quot;start&quot;:&quot;2024-07-22T00:00:00&quot;,&quot;end&quot;:&quot;2024-07-29T00:00:00&quot;}">juli 2024 wk 30</option><option value="{&quot;start&quot;:&quot;2024-07-29T00:00:00&quot;,&quot;end&quot;:&quot;2024-08-05T00:00:00&quot;}">augustus 2024 wk 31</option><option value="{&quot;start&quot;:&quot;2024-08-05T00:00:00&quot;,&quot;end&quot;:&quot;2024-08-12T00:00:00&quot;}">augustus 2024 wk 32</option><option value="{&quot;start&quot;:&quot;2024-08-12T00:00:00&quot;,&quot;end&quot;:&quot;2024-08-19T00:00:00&quot;}">augustus 2024 wk 33</option><option value="{&quot;start&quot;:&quot;2024-08-19T00:00:00&quot;,&quot;end&quot;:&quot;2024-08-26T00:00:00&quot;}">augustus 2024 wk 34</option><option value="{&quot;start&quot;:&quot;2024-08-26T00:00:00&quot;,&quot;end&quot;:&quot;2024-09-02T00:00:00&quot;}">augustus 2024 wk 35</option></select>
+                    </button>
+                    <button type="button" data-period="next" class="btn btn-light">
+                        <span class="label"><span class="fa fa-angle-right"></span></span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-auto ">
+            <div class="inline-container view-selector">
+                <button type="button" id="buttonWorkdays" class="active">
+                    <span class="label">WORKDAYS</span>
+                </button>
+                <button type="button" id="buttonWeek">
+                    <span class="label">WEEK</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>                </div>
+            </header>
+            
+<div class="filter-container alert alert-info">
+    Remember to check both 'Personal' and 'Exams' when trying to view your exams. Your personal exams will be shown only if both are checked.&nbsp;
+</div>
+
+            <section class="content">
+                <button class="sidebar-toggle btn btn-warning" type="button" style="top: 142.333px;">
+                    <span class="fa fa-chevron-right"></span>
+                    <span class="fa fa-chevron-left"></span>
+                </button>
+                <aside id="sidebar" class="sidebar" style="top: 132.333px;">
+
+
+<div class="input-group">          
+    <span class="label">Personal</span>
+    <div class="form-check form-switch">
+        <input class="form-check-input" checked="'checked'" type="checkbox" role="switch" data-id="60950" id="data-selector-personal">
+    </div>
+</div>
+<div class="hr"></div>
+<div class="input-group">
+    <span class="label">School</span>
+    <select id="data-selector-school" data-preselected="8" class="notranslate">undefined<option value="7">SABK</option><option value="5">SAGZ</option><option value="4">SASS</option><option value="3">SAVK</option><option value="25">SBMF</option><option value="8">SCMI</option><option value="9">SIBK</option><option value="11">SIBS</option><option value="10">SIEN</option><option value="14">SILS</option><option value="16">SIRE</option><option value="2">SISP</option><option value="26">SOFE</option><option value="19">SPCC</option><option value="17">SPEA</option></select>
+</div>
+<div class="input-group">
+    <span class="label">Year</span>
+    <select id="data-selector-year" class="notranslate">
+                <option value="1">1</option>
+                <option value="2" selected="selected">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+    </select>
+</div>
+<div class="input-group">
+    <span class="label">Group</span>
+    <select id="data-selector-group" data-preselected="10866" class="notranslate"><option value="-1">Select group</option><option value="9060">23/24 CMV2A</option><option value="11452">23/24 CMV2B</option><option value="9061">23/24 CMV2C</option><option value="13944">23/24 CMV2X</option><option value="9049">23/24 COV2A</option><option value="9262">23/24 COV2B</option><option value="9050">23/24 COV2C</option><option value="9051">23/24 COV2D</option><option value="14013">23/24 GTV2A</option><option value="14014">23/24 GTV2B</option><option value="14015">23/24 GTV2C</option><option value="14016">23/24 GTV2D</option><option value="14017">23/24 GTV2E</option><option value="14018">23/24 GTV2F</option><option value="14019">23/24 GTV2G</option><option value="14020">23/24 GTV2H</option><option value="9739">23/24 ICV2A</option><option value="9740">23/24 ICV2B</option><option value="9741">23/24 ICV2C</option><option value="9979">23/24 ITD2A</option><option value="13945">23/24 ITV2</option><option value="8811">23/24 ITV2B1</option><option value="10866">23/24 ITV2N1</option><option value="10854">23/24 ITV2N2</option><option value="10855">23/24 ITV2N3</option><option value="10861">23/24 ITV2S1</option><option value="10862">23/24 ITV2S2</option><option value="10863">23/24 ITV2S3</option><option value="10864">23/24 ITV2S4</option><option value="12119">23/24 MIC2A</option><option value="2962">Examgroup</option></select>
+</div>
+<div class="hr"></div>
+    <div class="input-group">
+        <span class="label">Lecturer</span>
+        <input type="text" id="data-searcher-teacher" class="notranslate ui-autocomplete-input" autocomplete="off">
+        <span class="input-group-append">
+            <div class="input-group-text bg-transparent"><i class="fa fa-times"></i></div>
+        </span>
+        <input type="hidden" id="data-selector-teacher" value="-1">
+    </div> 
+<div class="hr"></div>
+<div class="option-group">
+    <span class="label">Calendars</span>
+    <div id="data-selector-source" class="notranslate" data-preselected="1,2"><div class="option-item source-purple"><input type="checkbox" data-colorname="purple" name="checkbox" id="checkbox_id2" value="2"><label for="checkbox_id2">Exams</label></div><div class="option-item source-green"><input type="checkbox" data-colorname="green" name="checkbox" id="checkbox_id1" value="1"><label for="checkbox_id1">Timetable</label></div></div>
+</div>
+<div class="hr"></div>
+<div class="link">
+    <a href="/ReleaseData/Index">Timetable release dates</a>
+</div>
+<div class="hr"></div>
+    <div class="link">
+        <a href="https://www.mijnhanze.nl/knowledgebase-student/topics/what-can-i-find-where/schedule-digirooster/schedule-and-digirooster?question=what-do-the-location-abbreviations-stand-for" target="_blank">Building names and map</a>
+    </div>
+    <div class="hr"></div>
+                </aside>
+                <main class="main">
+                    <div id="loader" class="loading" style="display: none;"></div>
+                    
+<script>
+    $(document).ready(() => {
+        const rangeItems = [{"start":"2024-04-22T00:00:00","end":"2024-04-29T00:00:00","name":"april 2024 wk 17"},{"start":"2024-04-29T00:00:00","end":"2024-05-06T00:00:00","name":"mei 2024 wk 18"},{"start":"2024-05-06T00:00:00","end":"2024-05-13T00:00:00","name":"mei 2024 wk 19"},{"start":"2024-05-13T00:00:00","end":"2024-05-20T00:00:00","name":"mei 2024 wk 20"},{"start":"2024-05-20T00:00:00","end":"2024-05-27T00:00:00","name":"mei 2024 wk 21"},{"start":"2024-05-27T00:00:00","end":"2024-06-03T00:00:00","name":"mei 2024 wk 22"},{"start":"2024-06-03T00:00:00","end":"2024-06-10T00:00:00","name":"juni 2024 wk 23"},{"start":"2024-06-10T00:00:00","end":"2024-06-17T00:00:00","name":"juni 2024 wk 24"},{"start":"2024-06-17T00:00:00","end":"2024-06-24T00:00:00","name":"juni 2024 wk 25"},{"start":"2024-06-24T00:00:00","end":"2024-07-01T00:00:00","name":"juni 2024 wk 26"},{"start":"2024-07-01T00:00:00","end":"2024-07-08T00:00:00","name":"juli 2024 wk 27"},{"start":"2024-07-08T00:00:00","end":"2024-07-15T00:00:00","name":"juli 2024 wk 28"},{"start":"2024-07-15T00:00:00","end":"2024-07-22T00:00:00","name":"juli 2024 wk 29"},{"start":"2024-07-22T00:00:00","end":"2024-07-29T00:00:00","name":"juli 2024 wk 30"},{"start":"2024-07-29T00:00:00","end":"2024-08-05T00:00:00","name":"augustus 2024 wk 31"},{"start":"2024-08-05T00:00:00","end":"2024-08-12T00:00:00","name":"augustus 2024 wk 32"},{"start":"2024-08-12T00:00:00","end":"2024-08-19T00:00:00","name":"augustus 2024 wk 33"},{"start":"2024-08-19T00:00:00","end":"2024-08-26T00:00:00","name":"augustus 2024 wk 34"},{"start":"2024-08-26T00:00:00","end":"2024-09-02T00:00:00","name":"augustus 2024 wk 35"}];
+        const showChangeAlertsForDays = 5;
+        const showCalenderSubscription = true;
+        console.log(showCalenderSubscription);
+        digirooster.init(rangeItems, digirooster.pageType.Main, digirooster.viewType.Week, showChangeAlertsForDays, showCalenderSubscription);
+    });
+</script>
+
+
+<div class="week-view-container" data-calendar-type="time">
+    <div class="time-column">
+        <div class="day-header"></div>
+        <ul class="notranslate">
+                <li>8:00</li>
+                <li>9:00</li>
+                <li>10:00</li>
+                <li>11:00</li>
+                <li>12:00</li>
+                <li>13:00</li>
+                <li>14:00</li>
+                <li>15:00</li>
+                <li>16:00</li>
+                <li>17:00</li>
+                <li>18:00</li>
+                <li>19:00</li>
+                <li>20:00</li>
+                <li>21:00</li>
+                <li>22:00</li>
+        </ul>
+    </div>
+    <div class="day-columns">
+        <div id="week_day_1" class="day-column">
+            <div class="day-header">
+                <span class="day-label">Mo</span>
+                <span class="date-label">13 May</span>
+            </div>
+            <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li><div data-bs-toggle="popover" data-bs-delay="400" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="top" data-bs-content="<div class='w-100'><div class='row'>
+                <div class='col-5 text-end'><b>Name:</b></div>
+                <div class='col-7'>NSE FOR1/IT-For: hosts</div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Room:</b></div>
+                <div class='col-7'><ul><li>DD05/002 T180</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Groups:</b></div>
+                <div class='col-7'><ul><li>BF\ITV2N1</li><li>BF\ITV2N2</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Students:</b></div>
+                <div class='col-7'><ul></ul></div>
+                </div></div>" class="appointment notranslate start-2 duration-8" style="flex-grow: 1;" aria-describedby="popover773974">
+                            <div class="appointment-inner source-green">
+                                <span class="d-flex">
+                                    <span class="time">12:30</span>
+                                    <span class="subject">NSE FOR1/IT-For: hosts</span>
+                                </span>
+                                 <span class="location">DD05/002 T180</span>
+                            </div>
+                        </div><div class="spacer" style="flex-grow: 0;"></div></li>
+                    <li></li>
+                    <li><div data-bs-toggle="popover" data-bs-delay="400" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="top" data-bs-content="<div class='w-100'><div class='row'>
+                <div class='col-5 text-end'><b>Name:</b></div>
+                <div class='col-7'>NSE FOR1/IT-For: hosts pr</div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Room:</b></div>
+                <div class='col-7'><ul><li>ZP11/D2.70 C20</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Group:</b></div>
+                <div class='col-7'><ul><li>BF\ITV2N1</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Students:</b></div>
+                <div class='col-7'><ul></ul></div>
+                </div></div>" class="appointment notranslate start-2 duration-8" style="flex-grow: 1;">
+                            <div class="appointment-inner source-green">
+                                <span class="d-flex">
+                                    <span class="time">14:30</span>
+                                    <span class="subject">NSE FOR1/IT-For: hosts pr</span>
+                                </span>
+                                 <span class="location">ZP11/D2.70 C20</span>
+                            </div>
+                        </div><div class="spacer" style="flex-grow: 0;"></div></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+        </div>
+        <div id="week_day_2" class="day-column">
+            <div class="day-header">
+                <span class="day-label">Tu</span>
+                <span class="date-label">14 May</span>
+            </div>
+            <ul>
+                    <li><div data-bs-toggle="popover" data-bs-delay="400" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="top" data-bs-content="<div class='w-100'><div class='row'>
+                <div class='col-5 text-end'><b>Name:</b></div>
+                <div class='col-7'>NSE FOR2/IT Recht</div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Room:</b></div>
+                <div class='col-7'><ul><li>ZP11/D2.70 C20</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Group:</b></div>
+                <div class='col-7'><ul><li>BF\ITV2N1</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Students:</b></div>
+                <div class='col-7'><ul></ul></div>
+                </div></div>" class="appointment notranslate start-2 duration-8" style="flex-grow: 1;">
+                            <div class="appointment-inner source-green">
+                                <span class="d-flex">
+                                    <span class="time">08:30</span>
+                                    <span class="subject">NSE FOR2/IT Recht</span>
+                                </span>
+                                 <span class="location">ZP11/D2.70 C20</span>
+                            </div>
+                        </div><div class="spacer" style="flex-grow: 0;"></div></li>
+                    <li></li>
+                    <li><div data-bs-toggle="popover" data-bs-delay="400" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="top" data-bs-content="<div class='w-100'><div class='row'>
+                <div class='col-5 text-end'><b>Name:</b></div>
+                <div class='col-7'>NSE FOR2/Verhoortechnieken</div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Room:</b></div>
+                <div class='col-7'><ul><li>ZP11/D2.70 C20</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Group:</b></div>
+                <div class='col-7'><ul><li>BF\ITV2N1</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Students:</b></div>
+                <div class='col-7'><ul></ul></div>
+                </div></div>" class="appointment notranslate start-2 duration-8" style="flex-grow: 1;">
+                            <div class="appointment-inner source-green">
+                                <span class="d-flex">
+                                    <span class="time">10:30</span>
+                                    <span class="subject">NSE FOR2/Verhoortechnieken</span>
+                                </span>
+                                 <span class="location">ZP11/D2.70 C20</span>
+                            </div>
+                        </div><div class="spacer" style="flex-grow: 0;"></div></li>
+                    <li></li>
+                    <li><div data-bs-toggle="popover" data-bs-delay="400" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="top" data-bs-content="<div class='w-100'><div class='row'>
+                <div class='col-5 text-end'><b>Name:</b></div>
+                <div class='col-7'>NSE FOR1/IT-For: netwerk pr</div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Room:</b></div>
+                <div class='col-7'><ul><li>ZP11/D2.70 C20</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Group:</b></div>
+                <div class='col-7'><ul><li>BF\ITV2N1</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Students:</b></div>
+                <div class='col-7'><ul></ul></div>
+                </div></div>" class="appointment notranslate start-2 duration-8" style="flex-grow: 1;">
+                            <div class="appointment-inner source-green">
+                                <span class="d-flex">
+                                    <span class="time">12:30</span>
+                                    <span class="subject">NSE FOR1/IT-For: netwerk pr</span>
+                                </span>
+                                 <span class="location">ZP11/D2.70 C20</span>
+                            </div>
+                        </div><div class="spacer" style="flex-grow: 0;"></div></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+        </div>
+        <div id="week_day_3" class="day-column">
+            <div class="day-header">
+                <span class="day-label">We</span>
+                <span class="date-label">15 May</span>
+            </div>
+            <ul>
+                    <li></li>
+                    <li></li>
+                    <li><div data-bs-toggle="popover" data-bs-delay="400" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="top" data-bs-content="<div class='w-100'><div class='row'>
+                <div class='col-5 text-end'><b>Name:</b></div>
+                <div class='col-7'>NSE FOR1/IT-For: netwerk pr</div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Room:</b></div>
+                <div class='col-7'><ul><li>ZP11/D2.70 C20</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Group:</b></div>
+                <div class='col-7'><ul><li>BF\ITV2N1</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Students:</b></div>
+                <div class='col-7'><ul></ul></div>
+                </div></div>" class="appointment notranslate start-2 duration-8" style="flex-grow: 1;">
+                            <div class="appointment-inner source-green">
+                                <span class="d-flex">
+                                    <span class="time">10:30</span>
+                                    <span class="subject">NSE FOR1/IT-For: netwerk pr</span>
+                                </span>
+                                 <span class="location">ZP11/D2.70 C20</span>
+                            </div>
+                        </div><div class="spacer" style="flex-grow: 0;"></div></li>
+                    <li></li>
+                    <li><div data-bs-toggle="popover" data-bs-delay="400" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="top" data-bs-content="<div class='w-100'><div class='row'>
+                <div class='col-5 text-end'><b>Name:</b></div>
+                <div class='col-7'>NSE FOR1/IT-For: netwerk</div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Room:</b></div>
+                <div class='col-7'><ul><li>ZP11/A1.55 T96</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Groups:</b></div>
+                <div class='col-7'><ul><li>BF\ITV2N1</li><li>BF\ITV2N2</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Students:</b></div>
+                <div class='col-7'><ul></ul></div>
+                </div></div>" class="appointment notranslate start-2 duration-8" style="flex-grow: 1;">
+                            <div class="appointment-inner source-green">
+                                <span class="d-flex">
+                                    <span class="time">12:30</span>
+                                    <span class="subject">NSE FOR1/IT-For: netwerk</span>
+                                </span>
+                                 <span class="location">ZP11/A1.55 T96</span>
+                            </div>
+                        </div><div class="spacer" style="flex-grow: 0;"></div></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+        </div>
+        <div id="week_day_4" class="day-column">
+            <div class="day-header">
+                <span class="day-label">Th</span>
+                <span class="date-label">16 May</span>
+            </div>
+            <ul>
+                    <li><div data-bs-toggle="popover" data-bs-delay="400" data-bs-trigger="hover" data-bs-html="true" data-bs-placement="top" data-bs-content="<div class='w-100'><div class='row'>
+                <div class='col-5 text-end'><b>Name:</b></div>
+                <div class='col-7'>NSE FOR2/IT Recht</div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Room:</b></div>
+                <div class='col-7'><ul><li>ZP11/A1.55 T96</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Groups:</b></div>
+                <div class='col-7'><ul><li>BF\ITV2N1</li><li>BF\ITV2N2</li></ul></div>
+                </div><div class='row'>
+                <div class='col-5 text-end'><b>Students:</b></div>
+                <div class='col-7'><ul></ul></div>
+                </div></div>" class="appointment notranslate start-2 duration-8" style="flex-grow: 1;">
+                            <div class="appointment-inner source-green">
+                                <span class="d-flex">
+                                    <span class="time">08:30</span>
+                                    <span class="subject">NSE FOR2/IT Recht</span>
+                                </span>
+                                 <span class="location">ZP11/A1.55 T96</span>
+                            </div>
+                        </div><div class="spacer" style="flex-grow: 0;"></div></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+        </div>
+        <div id="week_day_5" class="day-column">
+            <div class="day-header">
+                <span class="day-label">Fr</span>
+                <span class="date-label">17 May</span>
+            </div>
+            <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+        </div>
+        <div id="week_day_6" class="day-column" style="display:none">
+            <div class="day-header">
+                <span class="day-label">Sa</span>
+                <span class="date-label">18 May</span>
+            </div>
+            <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+        </div>
+        <div id="week_day_0" class="day-column" style="display:none">
+            <div class="day-header">
+                <span class="day-label">Su</span>
+                <span class="date-label">19 May</span>
+            </div>
+            <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+                </main>
+            </section>
+        </div>
+
+        <div id="activity-detail-modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header top">
+                        <h5 class="modal-title"><span class="subject notranslate"></span><br><span class="time notranslate"></span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="section middlee properties-section">
+                            <div class="detailset">
+                                <span class="label">Source</span><span class="circle"></span><span class="source"></span>
+                            </div>
+                            <div class="detailset lecturer">
+                                <span class="label">Lecturer</span><ul class="notranslate"></ul>
+                            </div>
+                            <div class="detailset room">
+                                <span class="label">Room</span><ul class="notranslate"></ul>
+                            </div>
+                            <div class="detailset group">
+                                <span class="label">Student</span><ul class="notranslate"></ul>
+                            </div>
+                        </div>
+                        <div class="section feature-section"></div>
+
+                    <div class="section bottom">
+                        <hr>
+                            <div class="detailset change">
+                                <span class="label"><span class="fa fa-exclamation-triangle"></span> Changes</span><ul class="notranslate"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="subscription-modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-fullscreen-lg-down">
+                <div class="modal-content">
+                    <div class="modal-header top">
+                        <h5 class="modal-title"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="step">
+                            <div class="title">
+                                <span class="number circle">1</span>
+                                <span class="label">My subscribed calendars</span>
+                            </div>
+                            <div class="description"><span>The initial sync may take a minute to complete, future updates are send every night.</span></div>
+                            <div id="SubscriptionTable" class="table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Calendar <span class="fa fa-info"></span></th>
+                                            <th>Subscription</th>
+                                            <th>Reminder  <span class="fa fa-info"></span></th>
+                                            <th>Email alert  <span class="fa fa-info"></span></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                            <div class="notification">
+                                Your current selected calendar is <span class="groupname notranslate">23/24 ITV2N1</span>. Change the filters to select another calendar.
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="title">
+                                <span class="number circle">2</span>
+                                <span class="label">Phone configuration</span>
+                            </div>
+                            <div class="description"><span>Please reference <a href="/Account/MobileSetup" target="_blank">these guides</a> for setting up your mobile device. Depending on your data plan you might incur additional charges</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1031">
+            <div id="nodata-toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto"><span class="icon"><span class="fa fa-exclamation-circle"></span></span> No timetable published</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    None schedule selected or no activities for this time period. <a href="/ReleaseData/Index">check out timetable release dates</a>
+                </div>
+            </div>
+            <div id="loading-toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto"><span class="icon"><span class="fa fa-spinner fa-pulse" aria-hidden="true"></span></span> Loading timetable</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Please wait while your timetable is loading.
+                </div>
+            </div>
+            <div id="incomplete-toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto"><span class="icon"><span class="fa fa-exclamation-circle" aria-hidden="true"></span></span> No selection</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Please select a Lecturer, Group or Room.
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-backdrop" style="top: 132.333px;"></div>
+
+    
+
+<ul id="ui-id-1" tabindex="0" class="ui-menu ui-widget ui-widget-content ui-autocomplete notranslate ui-front" style="display: none;"></ul><div role="status" aria-live="assertive" aria-relevant="additions" class="ui-helper-hidden-accessible"></div><div class="popover bs-popover-auto fade show" role="tooltip" id="popover773974" data-popper-placement="top" style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(808.667px, -776px, 0px);"><div class="popover-arrow" style="position: absolute; left: 0px; transform: translate3d(116.667px, 0px, 0px);"></div><div class="popover-body"><div class="w-100"><div class="row">
+                <div class="col-5 text-end"><b>Name:</b></div>
+                <div class="col-7">NSE FOR1/IT-For: hosts</div>
+                </div><div class="row">
+                <div class="col-5 text-end"><b>Room:</b></div>
+                <div class="col-7"><ul><li>DD05/002 T180</li></ul></div>
+                </div><div class="row">
+                <div class="col-5 text-end"><b>Groups:</b></div>
+                <div class="col-7"><ul><li>BF\ITV2N1</li><li>BF\ITV2N2</li></ul></div>
+                </div><div class="row">
+                <div class="col-5 text-end"><b>Students:</b></div>
+                <div class="col-7"><ul></ul></div>
+                </div></div></div></div></body></html>

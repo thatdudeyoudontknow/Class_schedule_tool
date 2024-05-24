@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.service import Service
 from selenium.webdriver.edge.options import Options
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
@@ -8,6 +9,8 @@ from bs4 import BeautifulSoup
 import time
 import os
 from collections import namedtuple
+import json
+import datetime
 
 # Constants
 URL = "https://digirooster.hanze.nl/"
@@ -200,11 +203,28 @@ class HanzeScraper:
     def get_current_week(self):
         try:
             self.driver.get(URL)
-            week_info = self.driver.find_element("xpath", "//select[@id='data-selector-range']/option[3]").get_attribute("innerHTML")
-            parts = week_info.split(' ')
-            formatted_week_info = f"{parts[2]} {parts[3]} ({parts[0]} {parts[1]})"
-            ConsoleUtils.print_green(f"Current week: {formatted_week_info}")
-            return formatted_week_info
+            
+            #wait for the page to load
+            time.sleep(SLEEP_TIME)
+            #print all the options with the id data-selector-range
+            all_weeks = self.driver.find_elements(by="xpath",value= "//select[@id='data-selector-range']/option")
+
+
+            # from all the weeks with start of week and end of week, find the current week by comparing the current date
+            current_date = datetime.datetime.now().date()
+            for i, week in enumerate(all_weeks, start=1):
+                week_info = week.get_attribute('innerHTML')
+                week_value = week.get_attribute('value')
+                week_value_json = json.loads(week_value)
+                start_date = datetime.datetime.strptime(week_value_json['start'].split('T')[0], '%Y-%m-%d').date()
+                end_date = datetime.datetime.strptime(week_value_json['end'].split('T')[0], '%Y-%m-%d').date()
+                if start_date <= current_date <= end_date:
+                    current_week = week_info
+                    ConsoleUtils.print_green(f"Current week: {current_week}")
+                    break
+
+
+
 
         except NoSuchElementException as e:
             print(f"{bcolors.FAIL}Error fetching current week: {e}{bcolors.ENDC}")
