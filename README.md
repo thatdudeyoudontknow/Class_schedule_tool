@@ -55,7 +55,7 @@ This project is a web scraper designed to fetch class schedules from Hanze Unive
 
     The scraper will display the schedule for the selected parameters in the console.
 
-## Troubleshooting
+## **Troubleshooting**
 
     Ensure that Microsoft Edge and Edge WebDriver are correctly installed and match the version.
     If you encounter a WebDriverException, make sure your Edge WebDriver is compatible with the installed version of Edge.
