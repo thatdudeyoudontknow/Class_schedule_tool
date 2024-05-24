@@ -21,7 +21,6 @@ This project is a web scraper designed to fetch class schedules from Hanze Unive
    ```bash
    git clone https://github.com/thatdudeyoudontknow/Class_schedule_tool/blob/main/temptes2.0.py
    cd hanze-scraper
-Create a virtual environment and activate it:
 
 2. **Create a virtual environment and activate it:**
 
@@ -38,7 +37,8 @@ Create a virtual environment and activate it:
 ***Configuration***
 Ensure that you have Microsoft Edge installed on your system. The WebDriver for Edge will be automatically managed by the webdriver_manager package.
 
-***Usage***
+## Usage
+
 4. **Run the scraper:**
 
     ```bash
@@ -50,16 +50,17 @@ You will be asked to select the year.
 You will be asked to select the class group.
 You can choose the week for which you want to retrieve the schedule.
 Optionally, you can add multiple year/class selections.
+
 6. **View the output:**
 
 The scraper will display the schedule for the selected parameters in the console.
 
-***Troubleshooting***
+## Troubleshooting
 Ensure that Microsoft Edge and Edge WebDriver are correctly installed and match the version.
 If you encounter a WebDriverException, make sure your Edge WebDriver is compatible with the installed version of Edge.
 If the browser window closes unexpectedly, ensure you keep the browser window open until the script finishes running.
 Contributing
 Contributions are welcome! Please create an issue first to discuss what you would like to change. You can also fork the repository and submit a pull request.
 
-**License**
+## License
 This project is licensed under the GNU General Public License v3.0. See the LICENSE file for details.
