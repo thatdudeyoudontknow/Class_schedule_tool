@@ -43,6 +43,7 @@ This project is a web scraper designed to fetch class schedules from Hanze Unive
 
     ```bash
     python temptes2.0.py
+    ```
 
 2. **Follow the on-screen prompts:**
 
@@ -56,10 +57,10 @@ This project is a web scraper designed to fetch class schedules from Hanze Unive
     The scraper will display the schedule for the selected parameters in the console.
 
 ## Troubleshooting
-**-**
+
 Ensure that Microsoft Edge and Edge WebDriver are correctly installed and match the version.
-    If you encounter a WebDriverException, make sure your Edge WebDriver is compatible with the installed version of Edge.
-    If the browser window closes unexpectedly, ensure you keep the browser window open until the script finishes running.
+- If you encounter a WebDriverException, make sure your Edge WebDriver is compatible with the installed version of Edge.
+- If the browser window closes unexpectedly, ensure you keep the browser window open until the script finishes running.
 
 ## Contributing
 
@@ -67,4 +68,4 @@ Ensure that Microsoft Edge and Edge WebDriver are correctly installed and match 
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0. See the LICENSE file for details.
+- This project is licensed under the GNU General Public License v3.0. See the LICENSE file for details.
