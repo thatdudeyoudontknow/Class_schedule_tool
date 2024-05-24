@@ -1,3 +1,6 @@
+> [!CAUTION] 
+> This project is still in development!
+
 # Hanze University Class Schedule Scraper
 
 This project is a web scraper designed to fetch class schedules from Hanze University's DigiRooster using Selenium and BeautifulSoup. It provides a command-line interface for users to select the year and class group, and then retrieves and displays the schedule for the selected parameters.
@@ -59,7 +62,7 @@ This project is a web scraper designed to fetch class schedules from Hanze Unive
 ## Troubleshooting
 
 Ensure that Microsoft Edge and Edge WebDriver are correctly installed and match the version.
-- If you encounter a WebDriverException, make sure your Edge WebDriver is compatible with the installed version of Edge.
+    If you encounter a WebDriverException, make sure your Edge WebDriver is compatible with the installed version of Edge.
 - If the browser window closes unexpectedly, ensure you keep the browser window open until the script finishes running.
 
 ## Contributing
